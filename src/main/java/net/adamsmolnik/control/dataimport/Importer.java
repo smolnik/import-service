@@ -1,13 +1,13 @@
 package net.adamsmolnik.control.dataimport;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import net.adamsmolnik.entity.EntityDetails;
 import net.adamsmolnik.entity.EntityReferenceDest;
 import net.adamsmolnik.entity.EntityReferenceSource;
 import net.adamsmolnik.provider.EntityProvider;
 
-@RequestScoped
+@Dependent
 public class Importer {
 
     @Inject
