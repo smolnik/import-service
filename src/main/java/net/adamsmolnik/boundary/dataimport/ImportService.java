@@ -8,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import net.adamsmolnik.control.dataimport.ImportDetails;
 import net.adamsmolnik.control.dataimport.Importer;
 import net.adamsmolnik.model.dataimport.ImportRequest;
 import net.adamsmolnik.model.dataimport.ImportResponse;
@@ -28,7 +29,7 @@ public class ImportService {
     @Produces(MediaType.TEXT_PLAIN)
     @Path("import")
     public String doImport(@FormParam("srcObjectKey") String srcObjectKey, @FormParam("destObjectKey") String destObjectKey) {
-        return importer.doImport(srcObjectKey, destObjectKey);
+        return importer.doImport(srcObjectKey).toString();
     }
 
     @POST
@@ -36,7 +37,8 @@ public class ImportService {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("import")
     public ImportResponse doImport(ImportRequest importRequest) {
-        return new ImportResponse(importer.doImport(importRequest.srcObjectKey, importRequest.destObjectKey));
+        ImportDetails ids = importer.doImport(importRequest.srcObjectKey);
+        return new ImportResponse(ids.getImportedObjectKey(), ids.getVersion());
     }
 
 }

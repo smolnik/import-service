@@ -1,5 +1,6 @@
 package net.adamsmolnik.boundary.dataimport;
 
+import net.adamsmolnik.control.dataimport.ImportDetails;
 import net.adamsmolnik.control.dataimport.Importer;
 import net.adamsmolnik.model.dataimport.ImportRequest;
 import net.adamsmolnik.model.dataimport.ImportResponse;
@@ -18,7 +19,8 @@ public class ImportActivityImpl implements ImportActivity {
 
     @Override
     public ImportResponse doImport(ImportRequest importRequest) {
-        return new ImportResponse(this.importer.doImport(importRequest.srcObjectKey, importRequest.destObjectKey));
+        ImportDetails ids = importer.doImport(importRequest.srcObjectKey);
+        return new ImportResponse(ids.getImportedObjectKey(), ids.getVersion());
     }
 
 }
