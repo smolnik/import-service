@@ -3,7 +3,7 @@ package net.adamsmolnik.control.dataimport;
 import java.nio.file.Paths;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import net.adamsmolnik.entity.EntityDetails;
+import net.adamsmolnik.entity.OperationDetails;
 import net.adamsmolnik.entity.EntityReferenceDest;
 import net.adamsmolnik.entity.EntityReferenceSource;
 import net.adamsmolnik.provider.EntityProvider;
@@ -25,9 +25,10 @@ public class Importer {
     public ImportDetails doImport(String srcObjectKey) {
         String internalFolder = conf.getServiceValue(snr.getServiceName(), "import.internal");
         String fileName = Paths.get(srcObjectKey).getFileName().toString();
+        EntityReferenceSource ers = new EntityReferenceSource(srcObjectKey);
         String destObjectKey = internalFolder + "/" + fileName;
-        EntityDetails ed = entityProvider.move(new EntityReferenceSource(srcObjectKey), new EntityReferenceDest(destObjectKey));
-        return new ImportDetails(destObjectKey, ed.getVersion(), ed.getInternalFootprint());
+        OperationDetails od = entityProvider.copy(ers, new EntityReferenceDest(destObjectKey));
+        return new ImportDetails(destObjectKey, od.getVersion(), od.getInternalFootprint());
     }
 
     @Override
